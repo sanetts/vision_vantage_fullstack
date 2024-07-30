@@ -1,14 +1,16 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { IoIosArrowDown } from "react-icons/io";
+import axios from "axios";
 
 const GameInfo = ({ className = "" }) => {
-  const gameTypeOptions = [ "Competitive", "Training"];
+  const gameTypeOptions = ["Competitive", "Training"];
   const [selectedGameType, setSelectedGameType] = useState("");
   const [location, setLocation] = useState("");
   const [stadiumName, setStadiumName] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [numberOfPlayers, setNumberOfPlayers] = useState(11);
+  const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleGameTypeSelect = (event) => {
     setSelectedGameType(event.target.value);
@@ -30,16 +32,34 @@ const GameInfo = ({ className = "" }) => {
     setNumberOfPlayers(parseInt(event.target.value, 10));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log({
-      selectedGameType,
+
+    const gameData = {
+      game_type: selectedGameType, // Ensure the key matches your backend schema
       location,
-      stadiumName,
-      selectedDate,
-      numberOfPlayers,
-    });
-    
+      stadium_name: stadiumName, // Ensure the key matches your backend schema
+      game_date: selectedDate, // Ensure the key matches your backend schema
+      number_of_players: numberOfPlayers, // Ensure the key matches your backend schema
+    };
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8004/api/games/",
+        gameData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setSuccessMessage(response.data.message);
+      setError(null);
+    } catch (error) {
+      console.error("There was an error creating the game!", error);
+      setError("Failed to create the game. Please try again.");
+      setSuccessMessage("");
+    }
   };
 
   return (
@@ -54,18 +74,21 @@ const GameInfo = ({ className = "" }) => {
         </div>
       </div>
       <div className="self-stretch flex flex-col items-start justify-start pt-0 px-0 pb-[3px] gap-[9px] text-darkslategray-200">
-      <label htmlFor="gameType" className="text-darkslategray-200">
+        <label htmlFor="gameType" className="text-darkslategray-200">
           Select Game Type
         </label>
         <div className="self-stretch flex flex-row items-start justify-between gap-[20px]">
           <div className="relative inline-block min-w-[195px] z-[1]">
             <select
+              id="gameType"
               value={selectedGameType}
               onChange={handleGameTypeSelect}
               className="w-full cursor-pointer border border-solid border-gainsboro-100 rounded-md px-3 py-2"
               required
             >
-             
+              <option value="" disabled>
+                Select game type
+              </option>
               {gameTypeOptions.map((option) => (
                 <option key={option} value={option}>
                   {option}
@@ -77,11 +100,14 @@ const GameInfo = ({ className = "" }) => {
         <div className="self-stretch h-px relative box-border z-[1] border-t-[1px] border-solid border-darkslategray-100" />
       </div>
       <div className="self-stretch flex flex-col items-start justify-start pt-0 px-0 pb-[3px] gap-[9px]">
-      <label htmlFor="location" className="text-darkslategray-200">Select Location</label>
+        <label htmlFor="location" className="text-darkslategray-200">
+          Select Location
+        </label>
         <div className="self-stretch flex flex-row items-start justify-between gap-[20px]">
           <div className="relative inline-block min-w-[103px] z-[1]">
             <input
               type="text"
+              id="location"
               value={location}
               onChange={handleLocationChange}
               placeholder="Location"
@@ -93,11 +119,14 @@ const GameInfo = ({ className = "" }) => {
         <div className="self-stretch h-px relative box-border z-[1] border-t-[1px] border-solid border-darkslategray-100" />
       </div>
       <div className="self-stretch flex flex-col items-start justify-start pt-0 px-0 pb-[3px] gap-[9px]">
-      <label htmlFor="location" className="text-darkslategray-200">Enter Stadium Name</label>
+        <label htmlFor="stadiumName" className="text-darkslategray-200">
+          Enter Stadium Name
+        </label>
         <div className="self-stretch flex flex-row items-start justify-between gap-[20px]">
           <div className="relative inline-block min-w-[94px] z-[1]">
             <input
               type="text"
+              id="stadiumName"
               value={stadiumName}
               onChange={handleStadiumNameChange}
               placeholder="Stadium Name"
@@ -109,11 +138,14 @@ const GameInfo = ({ className = "" }) => {
         <div className="self-stretch h-px relative box-border z-[1] border-t-[1px] border-solid border-darkslategray-100" />
       </div>
       <div className="self-stretch flex flex-col items-start justify-start pt-0 px-0 pb-[3px] gap-[9px]">
-      <label htmlFor="location" className="text-darkslategray-200">Select Match Day</label>
+        <label htmlFor="selectedDate" className="text-darkslategray-200">
+          Select Match Day
+        </label>
         <div className="self-stretch flex flex-row items-start justify-between gap-[20px]">
           <div className="relative inline-block min-w-[76px] z-[1]">
             <input
               type="date"
+              id="selectedDate"
               value={selectedDate}
               onChange={handleDateChange}
               className="border-2 border-solid border-gainsboro-100 w-[120px] h-[20px] py-[8px] px-[5px] text-darkslategray-200"
@@ -124,11 +156,14 @@ const GameInfo = ({ className = "" }) => {
         <div className="self-stretch h-px relative box-border z-[1] border-t-[1px] border-solid border-darkslategray-100" />
       </div>
       <div className="self-stretch flex flex-col items-start justify-start pt-0 px-0 pb-[3px] gap-[9px]">
-      <label htmlFor="location" className="text-darkslategray-200">Number of Players Per Team</label>
+        <label htmlFor="numberOfPlayers" className="text-darkslategray-200">
+          Number of Players Per Team
+        </label>
         <div className="self-stretch flex flex-row items-start justify-between gap-[20px]">
           <div className="relative inline-block min-w-[124px] z-[1]">
             <input
               type="number"
+              id="numberOfPlayers"
               value={numberOfPlayers}
               onChange={handleNumberOfPlayersChange}
               min="1"
@@ -137,22 +172,16 @@ const GameInfo = ({ className = "" }) => {
             />
           </div>
         </div>
-        
         <div className="self-stretch h-px relative box-border z-[1] border-t-[1px] border-solid border-darkslategray-100" />
       </div>
-      <div className="rounded-sm bg-mediumseagreen flex flex-row items-start justify-start pt-[9px] px-[79px] pb-2 whitespace-nowrap z-[1] text-base text-white">
-        <div className="h-9 w-[242px] relative rounded-sm bg-mediumseagreen hidden" />  
-        <button type="submit" className="relative inline-block min-w-[84px] z-[1] bg-mediumseagreen text-white">
-  Upload Video
-</button>
-
-      </div>
-      <div className="flex flex-row items-start justify-start py-0 pr-[69px] pl-[67px] text-sm text-slategray">
-        <div className="relative inline-block min-w-[107px] z-[1]">
-          All My Games <span> 3 </span>
-        </div>
-        
-      </div>
+      <button
+        type="submit"
+        className="bg-blue-500 text-white px-4 py-2 rounded"
+      >
+        Submit
+      </button>
+      {error && <p className="text-red-500">{error}</p>}
+      {successMessage && <p className="text-green-500">{successMessage}</p>}
     </form>
   );
 };
