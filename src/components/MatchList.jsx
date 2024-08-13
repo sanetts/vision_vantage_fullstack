@@ -8,7 +8,7 @@ const MatchList = ({ className = "" }) => {
     >
       {/* Video Feed Section */}
       <div className="flex-1 flex flex-row items-start justify-start relative max-w-full">
-        <div className="flex-1 rounded-8xs bg-seagreen-200 flex flex-row items-end justify-start relative gap-8 lg:gap-20 max-w-full lg:flex-wrap">
+        <div className="flex-1 rounded-8xs bg-seagreen-200 flex flex-row items-end justify-start relative gap-8 lg:gap-20 max-w-full lg:flex-wrap mt-[70px]">
           <video
             className="self-stretch w-full max-w-full rounded-8xs"
             controls
@@ -18,8 +18,6 @@ const MatchList = ({ className = "" }) => {
           </video>
         </div>
       </div>
-
-     
     </div>
   );
 };

@@ -14,6 +14,7 @@ import Register from './components/Register';
 import History from './components/History';
 import SkillDashboard from './components/SkillDashboard';
 import Match from './components/Match';
+import "./index.css";
 
 const App = () => {
   return (

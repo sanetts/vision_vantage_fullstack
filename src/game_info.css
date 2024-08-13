@@ -1,0 +1,90 @@
+/* Container for the entire GameInfo component */
+.game-info {
+  width: 319px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 29px 38px 515px; /* Adjust padding as needed */
+  box-sizing: border-box;
+  gap: 20px;
+  text-align: left;
+  font-family: 'Roboto', sans-serif;
+  color: #2f4f4f; /* Dark slate gray */
+  position: relative;
+  margin-left: -145px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1425px) {
+  .game-info {
+    padding-bottom: 218px; /* Adjust padding for smaller screens */
+  }
+}
+
+@media (max-width: 450px) {
+  .game-info {
+    padding-bottom: 218px; /* Adjust padding for smaller screens */
+    margin-left: 0; /* Reset margin for small screens */
+  }
+}
+
+/* Form label styles */
+.game-info label {
+  color: #2f4f4f; /* Dark slate gray */
+  font-size: 14px; /* Adjust as needed */
+  margin-bottom: 9px;
+}
+
+/* Input and select field styles */
+.game-info select,
+.game-info input[type="text"],
+.game-info input[type="date"],
+.game-info input[type="number"] {
+  border: 1px solid #dcdcdc; /* Gainsboro */
+  border-radius: 4px;
+  padding: 8px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Specific styles for select fields */
+.game-info select {
+  cursor: pointer;
+}
+
+/* Styles for error and success messages */
+.game-info .error {
+  color: #f00; /* Red for error */
+}
+
+.game-info .success {
+  color: #0f0; /* Green for success */
+}
+
+/* Button styles */
+.game-info .upload-button {
+  background-color: #3cb371; /* Medium sea green */
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+/* Border style for dividers */
+.game-info .divider {
+  height: 1px;
+  border-top: 1px solid #2f4f4f; /* Dark slate gray */
+  width: 100%;
+  margin: 3px 0;
+}
+
+/* Modal styles */
+.video-upload-modal {
+  /* Add your modal styles here */
+}
